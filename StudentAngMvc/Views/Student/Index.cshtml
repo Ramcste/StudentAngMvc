@@ -9,17 +9,12 @@
     <br />
     <br />
     <div class="row">
-        <div class="col-md-1">Name:</div>
+        <div class="col-md-1">Search:</div>
         <div class="col-md-3">
             <input ng-model="searchname" class="form-control"/>
         </div>
-        <div class="col-md-1">Gender:</div>
-        <div class="col-md-3">
-            <select name="searchgender" ng-model="data.searchgender"  class="form-control">
-            <option value="">All</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option></select> 
-        </div>
+        <div class="col-md-4"></div>
+ 
      <div class="col-md-4"></div> 
     </div>
     <br />
@@ -36,7 +31,7 @@
                 <td><b>Gender</b></td>
                 <td><b>Action</b></td>
             </tr>
-            <tr ng-repeat="student in students | filter:searchname | filter:data.searchgender">
+            <tr ng-repeat="student in students | filter:searchname ">
               
                 <td>
                    {{student.Name}}
