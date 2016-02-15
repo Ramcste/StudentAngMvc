@@ -26,58 +26,63 @@
             $scope.Id = student.Id;
             $scope.Name = student.Name;
             $scope.Email = student.Email;
+            $scope.PhoneNumber = student.PhoneNumber;
             $scope.Address = student.Address;
             $scope.DOB = student.DOB;
             $scope.Gender = student.Gender;
             $scope.Action = "Update";
             $scope.divStudent = true;
-        },function(){
+          
+        }, function () {
             alert('Error in getting student records');
 
         });
     }
 
     $scope.AddUpdateStudent = function () {
-        var Student = {
-            Name: $scope.Name,
-            Email: $scope.Email,
-            PhoneNumber: $scope.PhoneNumber,
-            Address: $scope.Address,
-            DOB: $scope.DOB,
-            Gender: $scope.Gender
+        $scope.$broadcast('show-errors-check-validity');
+        if ($scope.studentForm.$valid) {
+           
+            var Student = {
+                Name: $scope.Name,
+                Email: $scope.Email,
+                PhoneNumber: $scope.PhoneNumber,
+                Address: $scope.Address,
+                DOB: $scope.DOB,
+                Gender: $scope.Gender
+            };
+            var getStudentAction = $scope.Action;
+      
 
-        };
+            if (getStudentAction == "Update") {
+               
+                Student.Id = $scope.Id;
+                var getStudentData = studentServices.updateStudent(Student);
+                getStudentData.then(function (msg) {
+                    GetAllStudents();
+                    alert(msg.data);
+                    $scope.divStudent = false;
 
-        //console.log(Student);
+                }, function () {
+                    alert('Error in updating student record');
+                });
+            }
 
-        var getStudentAction = $scope.Action;
+            else {
+                var getStudentData = studentServices.AddStudent(Student);
+                getStudentData.then(function (msg) {
+                    GetAllStudents();
+                    alert(msg.data);
+                    $scope.divStudent = false;
+                }, function () {
 
-        if (getStudentAction == "Update") {
-            Student.Id = $scope.Id;
-            var getStudentData = studentServices.updateStudent(Student);
-            getStudentData.then(function (msg) {
-                GetAllStudents();
-                alert(msg.data);
-                $scope.divStudent = false;
+                    alert('Error in adding student records');
 
-            }, function () {
-                alert('Error in updating student record');
-            });
+                });
+            }
+
+
         }
-
-        else {
-            var getStudentData = studentServices.AddStudent(Student);
-            getStudentData.then(function (msg) {
-                GetAllStudents();
-                alert(msg.data);
-                $scope.divStudent = false;
-            }, function () {
-
-                alert('Error in adding student records');
-
-            });
-        }
-
     }
 
     $scope.AddStudentDiv = function () {
@@ -99,10 +104,11 @@
     function clearFileds() {
     $scope.Name = "";
     $scope.Email = "";
+    $scope.PhoneNumber = "";
     $scope.Address = "";
     $scope.Gender = "";
     $scope.DOB = "";
-    $scope.PhoneNumber = "";
+   
 
 }
 

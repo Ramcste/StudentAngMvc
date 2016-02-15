@@ -2,7 +2,10 @@
     ViewBag.Title = "Student Home Page";
 }
 
+
 <div ng-controller="studentAngContrl">
+   
+   
     <br />
     <br />
     <div class="row">
@@ -17,9 +20,7 @@
             <option value="Male">Male</option>
             <option value="Female">Female</option></select> 
         </div>
-        <div  class="col-md-4">
-            <button type="button" ng-click="searchStudent(student)" class="btn btn-primary">Search</button>
-        </div>     
+     <div class="col-md-4"></div> 
     </div>
     <br />
     <br />
@@ -35,7 +36,7 @@
                 <td><b>Gender</b></td>
                 <td><b>Action</b></td>
             </tr>
-            <tr ng-repeat="student in students | filter:searchname | filter:searchgender">
+            <tr ng-repeat="student in students | filter:searchname | filter:data.searchgender">
               
                 <td>
                    {{student.Name}}
@@ -66,82 +67,92 @@
 
 
 
-    <span ng-click="AddStudentDiv()" class="btn btn-default">
+    <span ng-click="AddStudentDiv()"  class="btn btn-default">
         Add Student
     </span>
     <div ng-show="divStudent">
         <p class="divHead"></p>
-        
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <td><b><i>{{Action}} Student</i></b></td>
-                    <td></td>
+       
+       <form name="studentForm" novalidate class="form-horizontal">
+         
+         <div class="form-group">
+            <b><i>{{Action}} Student</i></b>
+        </div>
+
+        <div class="form-group" show-errors>
+            <label class="form-label">Name</label>
+            <input type="text" name="name" ng-model="Name" class="form-control" required />
+            <p class="help-block" ng-if="studentForm.name.$error.required">Name is required</p>
+        </div>
+
+        <div class="form-group" show-errors>
+            <label class="form-label">Email</label>
+            <input type="text" name="email" ng-model="Email" class="form-control"  required />
+            <p class="help-block"  ng-if="studentForm.email.$error.required">Email is required</p>
+           
+        </div>
+
+        <div class="form-group" show-errors>
+            <label class="form-label">Phone Number</label>
+            <input type="text" name="phonenumber" ng-model="PhoneNumber" class="form-control" required />
+            <p class="help-block" ng-if="studentForm.phonenumber.$error.required">Phone Number is required</p>
+        </div>
+
+        <div class="form-group" show-errors>
+            <label class="form-label">Address</label>
+            <input type="text" name="address" ng-model="Address" class="form-control" required />
+            <p class="help-block" ng-if="studentForm.address.$error.required">Address is required</p>
+        </div>
+
+        <div class="form-group" show-errors>
+            <label class="form-label">Date Of Birth </label>
+            <input type="text" name="dob" id="dateofbirth" ng-model="DOB" class="form-control" required />
+            <p class="help-block" ng-if="studentForm.dob.$error.required">Enter your Date of birth</p>
+        </div>
+
+        <div class="form-group" show-errors>
+            <label class="form-label">Gender</label>
+            <select name="gender" ng-model="Gender" class="form-control" required>
+                <option value="">--Select Gender--</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+
+            </select>
+            <p class="help-block" ng-if="studentForm.gender.$error.required">Select your Gender</p>
+        </div>
+
+        <div class="form-group">
+
+             <input type="submit" class="btn btn-default" value="Save" ng-click="AddUpdateStudent()" />
+            <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+
+        </div>
 
 
-                </tr>
 
-                <tr>
+         
 
-                    <td><b>Name</b></td>
-                    <td>
-                        <input type="text" name="name" ng-model="Name" class="form-control" required />
-                     
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Email</b></td>
-                    <td>
-                        <input type="text" ng-model="Email" class="form-control" />
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Phone Number</b></td>
-                    <td>
-                        <input type="text" ng-model="PhoneNumber" class="form-control" />
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Address</b></td>
-                    <td>
-                        <input type="text" ng-model="Address" class="form-control" />
-                    </td>
-                </tr>
-                <tr>
-
-                    <td><b>Date Of Birth</b></td>
-                    <td>
-                        <input type="text" id="dateofbirth" ng-model="DOB" class="form-control" />
-                    </td>
-                </tr>
-                <tr>
-                    <td><b>Gender</b></td>
-                    <td>
-                        <select name="Gender" ng-model="data.Gender" class="form-control">
-
-
-                            <option value="">--Select Gender--</option>
-                            <option value="Male" selected="">Male</option>
-                            <option value="Female">Female</option>
-
-                        </select>
-                    </td>
-                </tr>
-                <tr></tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" class="btn btn-default" value="Save" ng-click="AddUpdateStudent()" />
-                        <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
-                    </td>
-
-                </tr>
-
-            </table>
         </form>
       
     </div>
 </div>
 
+<style>
+
+ body {
+  padding-top: 50px;
+}
+
+.form-group .help-block {
+  display: none;
+}
+ 
+.form-group.has-error .help-block {
+  display: block;
+}
+
+      
+</style>
 
 <script>
 
